@@ -191,4 +191,4 @@ php -l app/**/*.php
 
 ## Licencia
 
-Este proyecto es de uso interno.
+prueba tecnica para Solvos
