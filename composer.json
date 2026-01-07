@@ -1,0 +1,29 @@
+{
+    "name": "sistema-ofertas/api",
+    "description": "API REST para sistema de gestión de ofertas",
+    "type": "project",
+    "require": {
+        "php": "^8.4",
+        "mongodb/mongodb": "^2.0",
+        "phpoffice/phpspreadsheet": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

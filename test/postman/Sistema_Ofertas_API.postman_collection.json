@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "sistema-ofertas-api-001",
+		"name": "Sistema de Ofertas API",
+		"description": "Colección completa de endpoints para el Sistema de Gestión de Ofertas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "sistema-ofertas"
+	},
+	"item": [
+		{
+			"name": "Ofertas",
+			"item": [
+				{
+					"name": "Listar Ofertas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ofertas?page=1&per_page=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ofertas"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Número de página"
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"description": "Elementos por página"
+								},
+								{
+									"key": "estado",
+									"value": "",
+									"description": "Filtrar por estado (BORRADOR, ACTIVA, CERRADA)",
+									"disabled": true
+								},
+								{
+									"key": "fecha_inicio",
+									"value": "",
+									"description": "Filtrar por fecha de inicio (YYYY-MM-DD)",
+									"disabled": true
+								},
+								{
+									"key": "fecha_cierre",
+									"value": "",
+									"description": "Filtrar por fecha de cierre (YYYY-MM-DD)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Lista todas las ofertas con paginación y filtros opcionales"
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Ofertas - Filtro por Estado",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ofertas?estado=ACTIVA&page=1&per_page=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ofertas"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "ACTIVA"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Lista ofertas filtradas por estado ACTIVA"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Detalle de Oferta",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ofertas/{{oferta_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ofertas",
+								"{{oferta_id}}"
+							]
+						},
+						"description": "Obtiene el detalle completo de una oferta incluyendo actividad y documentos"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Oferta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objeto\": \"Adquisición de equipos informáticos\",\n  \"descripcion\": \"Se requiere la adquisición de 20 computadores de escritorio con especificaciones técnicas mínimas para oficina\",\n  \"moneda\": \"COP\",\n  \"presupuesto\": 50000000,\n  \"actividad_id\": \"{{actividad_id}}\",\n  \"fecha_inicio\": \"2025-01-15\",\n  \"hora_inicio\": \"08:00\",\n  \"fecha_cierre\": \"2025-01-25\",\n  \"hora_cierre\": \"17:00\",\n  \"estado\": \"BORRADOR\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/ofertas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ofertas"
+							]
+						},
+						"description": "Crea una nueva oferta. El consecutivo se genera automáticamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Oferta",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objeto\": \"Adquisición de equipos informáticos - Actualizado\",\n  \"descripcion\": \"Descripción actualizada de la oferta\",\n  \"moneda\": \"USD\",\n  \"presupuesto\": 12000,\n  \"estado\": \"ACTIVA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/ofertas/{{oferta_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ofertas",
+								"{{oferta_id}}"
+							]
+						},
+						"description": "Actualiza una oferta existente. La oferta debe tener al menos un documento cargado."
+					},
+					"response": []
+				},
+				{
+					"name": "Subir Documento a Oferta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "archivo",
+									"type": "file",
+									"src": [],
+									"description": "Archivo PDF o ZIP (máximo 10MB)"
+								},
+								{
+									"key": "titulo",
+									"value": "Documento técnico",
+									"type": "text",
+									"description": "Título del documento"
+								},
+								{
+									"key": "descripcion",
+									"value": "Especificaciones técnicas detalladas",
+									"type": "text",
+									"description": "Descripción del documento (opcional)"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/ofertas/{{oferta_id}}/documentos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ofertas",
+								"{{oferta_id}}",
+								"documentos"
+							]
+						},
+						"description": "Sube un documento (PDF o ZIP) a una oferta existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Exportar Ofertas a Excel",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ofertas/export/excel?estado=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ofertas",
+								"export",
+								"excel"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "",
+									"description": "Filtrar por estado (opcional)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Exporta las ofertas a un archivo Excel. El archivo se descarga automáticamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Exportar Ofertas Activas a Excel",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ofertas/export/excel?estado=ACTIVA",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ofertas",
+								"export",
+								"excel"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "ACTIVA"
+								}
+							]
+						},
+						"description": "Exporta solo las ofertas activas a Excel"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar ofertas"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "oferta_id",
+			"value": "",
+			"type": "string",
+			"description": "ID de una oferta existente (se actualiza automáticamente después de crear una)"
+		},
+		{
+			"key": "actividad_id",
+			"value": "",
+			"type": "string",
+			"description": "ID de una actividad existente en MongoDB"
+		}
+	]
+}
