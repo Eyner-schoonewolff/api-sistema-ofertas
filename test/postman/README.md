@@ -29,6 +29,31 @@ La colección incluye variables de entorno que debes configurar:
 
 ## Endpoints Incluidos
 
+### Actividades
+
+1. **Listar Actividades** (GET)
+   - Lista todas las actividades con paginación
+   - Parámetros opcionales: `page`, `per_page`, `search`
+
+2. **Buscar Actividades** (GET)
+   - Ejemplo específico de búsqueda por término
+
+3. **Obtener Detalle de Actividad** (GET)
+   - Obtiene el detalle completo de una actividad
+   - Requiere: `{{actividad_id}}`
+
+4. **Crear Actividad** (POST)
+   - Crea una nueva actividad (UNSPSC)
+   - El código_producto debe ser único
+
+5. **Actualizar Actividad** (PUT)
+   - Actualiza una actividad existente
+   - Requiere: `{{actividad_id}}`
+
+6. **Eliminar Actividad** (DELETE)
+   - Elimina una actividad
+   - Requiere: `{{actividad_id}}`
+
 ### Ofertas
 
 1. **Listar Ofertas** (GET)
@@ -66,9 +91,11 @@ La colección incluye variables de entorno que debes configurar:
 
 ## Flujo de Trabajo Recomendado
 
-1. **Primero**: Crear o usar una actividad existente
-   - Necesitas un `actividad_id` válido de MongoDB
-   - Puedes crear una actividad manualmente en MongoDB o usar el script de prueba
+1. **Primero**: Crear una actividad
+   - Usa el endpoint "Crear Actividad" para crear una nueva actividad
+   - Copia el `id` de la respuesta
+   - Actualiza la variable `{{actividad_id}}` en la colección
+   - O usa el endpoint "Listar Actividades" para obtener una existente
 
 2. **Crear Oferta**: Usa el endpoint "Crear Oferta"
    - Copia el `id` de la respuesta
@@ -84,7 +111,9 @@ La colección incluye variables de entorno que debes configurar:
 
 ## Notas Importantes
 
-- **Actividad ID**: Debes tener una actividad creada en MongoDB antes de crear ofertas
+- **Actividades**: Debes crear una actividad primero usando el endpoint "Crear Actividad" antes de crear ofertas
+- **Código Producto**: El `codigo_producto` debe ser único en las actividades
+- **Estructura UNSPSC**: Las actividades siguen la estructura UNSPSC (Segmento > Familia > Clase > Producto)
 - **Documentos**: Las ofertas deben tener al menos un documento para poder editarse
 - **Consecutivo**: Se genera automáticamente con formato `O-{000N}-{YY}`
 - **Estados permitidos**: `BORRADOR`, `ACTIVA`, `CERRADA`

@@ -69,6 +69,14 @@ api-sistema-ofertas/
 
 ## Endpoints de la API
 
+### Actividades (UNSPSC)
+
+- `GET /actividades` - Lista todas las actividades (con paginación y búsqueda)
+- `POST /actividades` - Crea una nueva actividad
+- `GET /actividades/{id}` - Obtiene el detalle de una actividad
+- `PUT /actividades/{id}` - Actualiza una actividad existente
+- `DELETE /actividades/{id}` - Elimina una actividad
+
 ### Ofertas
 
 - `GET /ofertas` - Lista todas las ofertas (con paginación y filtros)
@@ -78,8 +86,14 @@ api-sistema-ofertas/
 - `POST /ofertas/{id}/documentos` - Sube un documento a una oferta
 - `GET /ofertas/export/excel` - Exporta ofertas a Excel
 
-### Parámetros de Query (GET /ofertas)
+### Parámetros de Query
 
+**GET /actividades:**
+- `page`: Número de página (default: 1)
+- `per_page`: Elementos por página (default: 20)
+- `search`: Buscar por segmento, familia, clase o producto
+
+**GET /ofertas:**
 - `page`: Número de página (default: 1)
 - `per_page`: Elementos por página (default: 10)
 - `estado`: Filtrar por estado (BORRADOR, ACTIVA, CERRADA)
@@ -87,6 +101,36 @@ api-sistema-ofertas/
 - `fecha_cierre`: Filtrar por fecha de cierre
 
 ## Ejemplos de Uso
+
+### Crear una actividad
+
+```bash
+curl -X POST http://localhost:8000/actividades \
+  -H "Content-Type: application/json" \
+  -d '{
+    "codigo_segmento": 10000000,
+    "segmento": "Equipos, Materiales y Suministros",
+    "codigo_familia": 10100000,
+    "familia": "Equipos y Componentes de Minería y Perforación",
+    "codigo_clase": 10101500,
+    "clase": "Equipos de Minería",
+    "codigo_producto": 10101501,
+    "producto": "Equipos de Minería de Superficie"
+  }'
+```
+
+### Listar actividades
+
+```bash
+# Listar todas las actividades
+curl http://localhost:8000/actividades
+
+# Buscar actividades
+curl "http://localhost:8000/actividades?search=minería"
+
+# Con paginación
+curl "http://localhost:8000/actividades?page=1&per_page=20"
+```
 
 ### Crear una oferta
 

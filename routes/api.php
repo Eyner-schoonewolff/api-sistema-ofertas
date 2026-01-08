@@ -7,6 +7,13 @@
  */
 
 return [
+    // Rutas de actividades
+    'GET|/actividades' => 'ActividadesController@index',
+    'POST|/actividades' => 'ActividadesController@store',
+    'GET|/actividades/{id}' => 'ActividadesController@show',
+    'PUT|/actividades/{id}' => 'ActividadesController@update',
+    'DELETE|/actividades/{id}' => 'ActividadesController@destroy',
+    
     // Rutas de ofertas
     'GET|/ofertas' => 'OfertasController@index',
     'POST|/ofertas' => 'OfertasController@store',

@@ -8,6 +8,203 @@
 	},
 	"item": [
 		{
+			"name": "Actividades",
+			"item": [
+				{
+					"name": "Listar Actividades",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/actividades?page=1&per_page=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actividades"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Número de página"
+								},
+								{
+									"key": "per_page",
+									"value": "20",
+									"description": "Elementos por página"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "Buscar por segmento, familia, clase o producto",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Lista todas las actividades con paginación y búsqueda opcional"
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Actividades",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/actividades?search=minería&page=1&per_page=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actividades"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "minería"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Busca actividades por segmento, familia, clase o producto"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Detalle de Actividad",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/actividades/{{actividad_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actividades",
+								"{{actividad_id}}"
+							]
+						},
+						"description": "Obtiene el detalle completo de una actividad"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Actividad",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"codigo_segmento\": 10000000,\n  \"segmento\": \"Equipos, Materiales y Suministros\",\n  \"codigo_familia\": 10100000,\n  \"familia\": \"Equipos y Componentes de Minería y Perforación\",\n  \"codigo_clase\": 10101500,\n  \"clase\": \"Equipos de Minería\",\n  \"codigo_producto\": 10101501,\n  \"producto\": \"Equipos de Minería de Superficie\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/actividades",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actividades"
+							]
+						},
+						"description": "Crea una nueva actividad. El código_producto debe ser único."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Actividad",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"codigo_segmento\": 10000000,\n  \"segmento\": \"Equipos, Materiales y Suministros - Actualizado\",\n  \"codigo_familia\": 10100000,\n  \"familia\": \"Equipos y Componentes de Minería y Perforación\",\n  \"codigo_clase\": 10101500,\n  \"clase\": \"Equipos de Minería\",\n  \"codigo_producto\": 10101501,\n  \"producto\": \"Equipos de Minería de Superficie\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/actividades/{{actividad_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actividades",
+								"{{actividad_id}}"
+							]
+						},
+						"description": "Actualiza una actividad existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Actividad",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/actividades/{{actividad_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actividades",
+								"{{actividad_id}}"
+							]
+						},
+						"description": "Elimina una actividad. Verifica que no esté siendo usada en ninguna oferta."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar actividades (UNSPSC)"
+		},
+		{
 			"name": "Ofertas",
 			"item": [
 				{

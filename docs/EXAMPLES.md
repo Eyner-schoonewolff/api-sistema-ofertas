@@ -11,7 +11,87 @@ Antes de usar la API, asegúrate de tener:
 
 ## Ejemplos con cURL
 
-### 1. Crear una Oferta
+### 1. Crear una Actividad
+
+```bash
+curl -X POST http://localhost:8000/actividades \
+  -H "Content-Type: application/json" \
+  -d '{
+    "codigo_segmento": 10000000,
+    "segmento": "Equipos, Materiales y Suministros",
+    "codigo_familia": 10100000,
+    "familia": "Equipos y Componentes de Minería y Perforación",
+    "codigo_clase": 10101500,
+    "clase": "Equipos de Minería",
+    "codigo_producto": 10101501,
+    "producto": "Equipos de Minería de Superficie"
+  }'
+```
+
+**Respuesta esperada:**
+```json
+{
+  "success": true,
+  "message": "Actividad creada exitosamente",
+  "data": {
+    "id": "507f1f77bcf86cd799439011",
+    "codigo_segmento": 10000000,
+    "segmento": "Equipos, Materiales y Suministros",
+    "codigo_familia": 10100000,
+    "familia": "Equipos y Componentes de Minería y Perforación",
+    "codigo_clase": 10101500,
+    "clase": "Equipos de Minería",
+    "codigo_producto": 10101501,
+    "producto": "Equipos de Minería de Superficie",
+    "creado_en": "2025-01-09T10:30:00+00:00",
+    "actualizado_en": "2025-01-09T10:30:00+00:00"
+  }
+}
+```
+
+### 2. Listar Actividades
+
+```bash
+# Listar todas las actividades
+curl http://localhost:8000/actividades
+
+# Buscar actividades
+curl "http://localhost:8000/actividades?search=minería"
+
+# Con paginación
+curl "http://localhost:8000/actividades?page=1&per_page=20"
+```
+
+### 3. Obtener Detalle de Actividad
+
+```bash
+curl http://localhost:8000/actividades/507f1f77bcf86cd799439011
+```
+
+### 4. Actualizar Actividad
+
+```bash
+curl -X PUT http://localhost:8000/actividades/507f1f77bcf86cd799439011 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "codigo_segmento": 10000000,
+    "segmento": "Equipos, Materiales y Suministros - Actualizado",
+    "codigo_familia": 10100000,
+    "familia": "Equipos y Componentes de Minería y Perforación",
+    "codigo_clase": 10101500,
+    "clase": "Equipos de Minería",
+    "codigo_producto": 10101501,
+    "producto": "Equipos de Minería de Superficie"
+  }'
+```
+
+### 5. Eliminar Actividad
+
+```bash
+curl -X DELETE http://localhost:8000/actividades/507f1f77bcf86cd799439011
+```
+
+### 6. Crear una Oferta
 
 ```bash
 curl -X POST http://localhost:8000/ofertas \
@@ -176,6 +256,39 @@ El archivo se descargará con el nombre `ofertas_YYYY-MM-DD_HHMMSS.xlsx`
 
 ## Ejemplos con JavaScript (Fetch API)
 
+### Crear una Actividad
+
+```javascript
+const response = await fetch('http://localhost:8000/actividades', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    codigo_segmento: 10000000,
+    segmento: 'Equipos, Materiales y Suministros',
+    codigo_familia: 10100000,
+    familia: 'Equipos y Componentes de Minería y Perforación',
+    codigo_clase: 10101500,
+    clase: 'Equipos de Minería',
+    codigo_producto: 10101501,
+    producto: 'Equipos de Minería de Superficie'
+  })
+});
+
+const data = await response.json();
+console.log(data);
+// Guarda el data.data.id para usarlo como actividad_id
+```
+
+### Buscar Actividades
+
+```javascript
+const response = await fetch('http://localhost:8000/actividades?search=minería');
+const data = await response.json();
+console.log(data);
+```
+
 ### Crear una Oferta
 
 ```javascript
@@ -189,7 +302,7 @@ const response = await fetch('http://localhost:8000/ofertas', {
     descripcion: 'Se requiere la adquisición de 20 computadores',
     moneda: 'COP',
     presupuesto: 50000000,
-    actividad_id: '507f1f77bcf86cd799439011',
+    actividad_id: '507f1f77bcf86cd799439011', // ID de actividad creada anteriormente
     fecha_inicio: '2025-01-10',
     hora_inicio: '08:00',
     fecha_cierre: '2025-01-20',
@@ -225,8 +338,10 @@ console.log(data);
 - `201` - Created (recurso creado exitosamente)
 - `400` - Bad Request (error en la petición)
 - `404` - Not Found (recurso no encontrado)
+- `409` - Conflict (recurso duplicado, ej: código_producto ya existe)
 - `422` - Unprocessable Entity (error de validación)
 - `500` - Internal Server Error (error del servidor)
+- `503` - Service Unavailable (MongoDB no disponible)
 
 ## Manejo de Errores
 
