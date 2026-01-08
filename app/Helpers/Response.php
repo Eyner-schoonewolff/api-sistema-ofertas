@@ -19,6 +19,7 @@ class Response
     {
         http_response_code($statusCode);
         header('Content-Type: application/json; charset=utf-8');
+        header('Access-Control-Allow-Origin: *');
 
         $response = [
             'success' => true,
@@ -42,6 +43,7 @@ class Response
     {
         http_response_code($statusCode);
         header('Content-Type: application/json; charset=utf-8');
+        header('Access-Control-Allow-Origin: *');
 
         $response = [
             'success' => false,
@@ -66,6 +68,7 @@ class Response
     {
         http_response_code(200);
         header('Content-Type: application/json; charset=utf-8');
+        header('Access-Control-Allow-Origin: *');
 
         $response = [
             'success' => true,
