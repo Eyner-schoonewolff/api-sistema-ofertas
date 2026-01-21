@@ -3,7 +3,10 @@ FROM php:8.3-cli
 RUN apt-get update && apt-get install -y \
     unzip \
     libzip-dev \
+    libssl-dev \
+    ca-certificates \
     && docker-php-ext-install zip pdo pdo_mysql \
+    && docker-php-ext-install openssl \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb
 
