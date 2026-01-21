@@ -1,15 +1,26 @@
-# Usamos la imagen oficial de PHP 8.4
+# 1. Usamos la imagen oficial de PHP 8.4
 FROM php:8.4-cli
 
-# Instalamos extensiones comunes (opcional, por si usas bases de datos)
-RUN docker-php-ext-install pdo pdo_mysql
+# 2. Instalamos dependencias del sistema necesarias para Composer y extensiones
+RUN apt-get update && apt-get install -y \
+    unzip \
+    libzip-dev \
+    && docker-php-ext-install zip pdo pdo_mysql
 
-# Definimos el directorio de trabajo dentro del contenedor
+# 3. Instalamos Composer formalmente desde su imagen oficial
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 4. Definimos el directorio de trabajo
 WORKDIR /app
 
-# Copiamos todos los archivos de tu proyecto al contenedor
+# 5. Copiamos los archivos de dependencias primero (optimiza la caché de Docker)
+COPY composer.json composer.lock* ./
+
+# 6. Instalamos las dependencias de PHP
+RUN composer install --no-dev --optimize-autoloader
+
+# 7. Copiamos el resto de los archivos del proyecto
 COPY . .
 
-# Exponemos el puerto que Render nos asigne
-# PHP debe escuchar en 0.0.0.0 para ser accesible externamente
+# 8. Comando para iniciar la API
 CMD php -S 0.0.0.0:$PORT -t public
