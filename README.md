@@ -233,6 +233,4 @@ php -S localhost:8000 -t public
 php -l app/**/*.php
 ```
 
-## Licencia
 
-prueba tecnica para Solvos
